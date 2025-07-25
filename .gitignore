@@ -87,3 +87,6 @@ storybook-static/
 *.tgz
 .idea/
 *.swp
+
+# Cursor MCP
+.cursor/

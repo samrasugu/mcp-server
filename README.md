@@ -45,6 +45,87 @@ This project explores the Model Context Protocol as an alternative to RAG system
    npm run start
    ```
 
+## Environment Variables
+
+Set the following environment variables (or configure them in your MCP file):
+
+- `GOOGLE_PUBLIC_API_KEY`: Your Google API key
+- `GOOGLE_CALENDAR_ID`: Your Google Calendar ID (e.g., your Gmail address)
+
+You can set these in a `.env` file:
+```
+GOOGLE_PUBLIC_API_KEY=your-google-api-key
+GOOGLE_CALENDAR_ID=your-calendar-id
+```
+
+## Usage
+
+### Get Today's Meetings
+
+To print today's meetings directly in your terminal:
+```bash
+node src/index.js today
+```
+
+## Integrating with Cursor MCP & Chat Interaction
+
+This project supports integration with [Cursor MCP](https://www.cursor.so/mcp), enabling you to interact with your server via chat and automate workflows.
+
+### 1. Configure MCP Server in Cursor
+
+1. Open Cursor and go to the MCP panel.
+2. Add a new MCP server with the following settings (example):
+   - **Name**: [your name]'s Calendar
+   - **Command**: `node`
+   - **Args**: `src/index.ts`
+   - **Host**: `localhost`
+   - **Port**: `3000`
+   - **Environment Variables**: Set `GOOGLE_PUBLIC_API_KEY` and `GOOGLE_CALENDAR_ID` as needed.
+
+You can also create a `.cursor/mcp.json` file for quick setup.
+
+The content of the `.cursor/mcp.json` file should be like this:
+```json
+{
+  "servers": [
+    {
+      "name": "[your name]'s Calendar",
+      "command": "node",
+      "args": ["src/index.ts"],
+      "host": "localhost",
+      "port": 3000,
+      "env": {
+        "GOOGLE_PUBLIC_API_KEY": "your-google-api-key",
+        "GOOGLE_CALENDAR_ID": "your-calendar-id"
+      }
+    }
+  ]
+}
+```
+
+### 2. Start the MCP Server
+
+Run the server locally:
+```bash
+node src/index.ts
+```
+
+Or use the MCP panel's built-in controls to start/stop the server.
+
+### 3. Interact via Chat
+
+- Open the chat panel in Cursor.
+- Select your MCP server (e.g., "Sam's Calendar") from the chat source dropdown.
+- Ask questions like:
+  - `Do I have any meetings today?`
+  - `What is my next event?`
+  - `List all meetings for this week.`
+- The server will respond with information from your Google Calendar.
+
+### 4. Customization
+
+You can extend the server to support more commands or integrate with other tools. Update `src/index.ts` and restart the server to apply changes.
+
 ## Project Structure
 
 ```

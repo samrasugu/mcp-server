@@ -76,6 +76,29 @@ server.tool(
   }
 );
 
+// CLI shortcut for 'today'
+if (process.argv[2] === "today") {
+  (async () => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const dateStr = `${yyyy}-${mm}-${dd}`;
+    const result = await getMyCalendarByDate(dateStr);
+    if (result.error) {
+      console.error("Error:", result.error);
+      process.exit(1);
+    } else if (!Array.isArray(result.meetings) || result.meetings.length === 0) {
+      console.log("You have no meetings today.");
+    } else {
+      console.log("Today's meetings:");
+      for (const meeting of result.meetings) {
+        console.log("-", meeting);
+      }
+    }
+    process.exit(0);
+  })();
+} else {
 // set transport
 async function init() {
   const transport = new StdioServerTransport();
@@ -87,3 +110,4 @@ init().catch((err) => {
   console.error("Failed to initialize server:", err);
   process.exit(1);
 });
+}
